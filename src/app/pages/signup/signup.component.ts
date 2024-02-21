@@ -5,6 +5,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import { UserService } from '../../services/user.service';
+import {HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-signup',
@@ -14,13 +15,17 @@ import { UserService } from '../../services/user.service';
      FormsModule,
      CommonModule,
      MatButtonModule,
+     HttpClientModule
     ],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css'
 })
 export class SignupComponent {
 
-  userService: UserService = inject(UserService);
+  //userService: UserService = inject(UserService);
+  constructor(private userService: UserService){
+
+  }
 
   public user ={
     username: '',
@@ -39,7 +44,14 @@ export class SignupComponent {
     }
 
     this.userService.addUser(this.user).subscribe({
-      
+      next: (data) => {
+            console.log(data)
+            alert("success")
+      },
+      error: (err) => {
+            console.log(err)
+            alert("Error occurred")
+      }
     })
   }
 }
